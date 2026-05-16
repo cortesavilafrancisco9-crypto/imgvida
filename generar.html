@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Generador</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<style>
+
+body{
+    background:white;
+    margin:0;
+    padding:20px;
+    font-family:Arial;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="contenido"></div>
+
+<script>
+
+/* RECIBIR HTML */
+
+const params =
+new URLSearchParams(
+    window.location.search
+);
+
+const contenido =
+params.get('html');
+
+/* PONER HTML */
+
+document.getElementById(
+    'contenido'
+).innerHTML =
+decodeURIComponent(
+    contenido
+);
+
+/* CREAR IMAGEN */
+
+setTimeout(async()=>{
+
+    const canvas =
+    await html2canvas(
+
+        document.getElementById(
+            'contenido'
+        ),
+
+        {
+
+            scale:2,
+
+            useCORS:true,
+
+            backgroundColor:'#ffffff'
+        }
+
+    );
+
+    /* DESCARGAR */
+
+    const link =
+    document.createElement('a');
+
+    link.download =
+    'cotizacion.jpg';
+
+    link.href =
+    canvas.toDataURL(
+        'image/jpeg',
+        0.95
+    );
+
+    link.click();
+
+},1000);
+
+</script>
+
+</body>
+</html>
