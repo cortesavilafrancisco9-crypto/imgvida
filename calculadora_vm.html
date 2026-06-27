@@ -7,7 +7,8 @@
     const auth = urlParams.get('auth');
 
     if (!auth) {
-        window.location.href = "https://cortesavilafrancisco9-crypto.github.io/error403.html"; // Bloqueo: Sin token
+		alert("Acceso expirado o inválido. El link solo es válido por 10 segundos.");
+        window.location.href = "https://cortesavilafrancisco9-crypto.github.io/imgvida/error403.html"; // Bloqueo: Sin token
         return;
     }
 
@@ -22,7 +23,7 @@
 			
         }
     } catch (e) {
-        window.location.href = "https://cortesavilafrancisco9-crypto.github.io/405.html";
+        window.location.href = "https://cortesavilafrancisco9-crypto.github.io/imgvida/error403.html";
     }
 })();
 </script>
