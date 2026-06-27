@@ -1,3 +1,24 @@
+<script>
+window.onload = function() {
+    const data = JSON.parse(localStorage.getItem("acceso_calculadora"));
+    const ahora = Date.now();
+
+    // Validaciones:
+    // 1. ¿Existe el ticket?
+    // 2. ¿Ha expirado el tiempo?
+    // 3. ¿El usuario viene de tu dominio? (Referer)
+    
+    if (!data || ahora > data.expiracion || document.referrer.indexOf("cortesavilafrancisco9-crypto.github.io") === -1) {
+        alert("Acceso denegado: Se requiere autorización desde la aplicación principal.");
+        // Redirigir de vuelta a la app o a una página de error
+        window.location.href = "https://cortesavilafrancisco9-crypto.github.io/"; 
+    } else {
+        // Si es válido, borramos el ticket para que no se pueda recargar la página 
+        // y entrar después de que el tiempo pase.
+        localStorage.removeItem("acceso_calculadora");
+    }
+};
+</script>
 <!DOCTYPE html>
 <html lang="es">
 <head>
