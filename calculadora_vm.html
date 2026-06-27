@@ -7,7 +7,7 @@
     const auth = urlParams.get('auth');
 
     if (!auth) {
-        window.location.href = "https://cortesavilafrancisco9-crypto.github.io/"; // Bloqueo: Sin token
+        window.location.href = "https://cortesavilafrancisco9-crypto.github.io/error403.html"; // Bloqueo: Sin token
         return;
     }
 
@@ -18,11 +18,11 @@
 
         // Si pasan más de 10 segundos, el link ya no sirve
         if (diferencia < 0 || diferencia > 10) {
-            alert("Acceso expirado o inválido. El link solo es válido por 10 segundos.");
-            window.location.href = "https://cortesavilafrancisco9-crypto.github.io/";
+           
+			
         }
     } catch (e) {
-        window.location.href = "https://cortesavilafrancisco9-crypto.github.io/";
+        window.location.href = "https://cortesavilafrancisco9-crypto.github.io/405.html";
     }
 })();
 </script>
