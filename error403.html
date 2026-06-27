@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Denegado</title>
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .error-card {
+            background: #1e293b;
+            padding: 3rem;
+            border-radius: 8px;
+            border-top: 4px solid #ef4444;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            max-width: 450px;
+            width: 90%;
+        }
+        .error-icon {
+            font-size: 3rem;
+            color: #ef4444;
+            margin-bottom: 1rem;
+        }
+        h1 { margin: 0; font-size: 1.5rem; letter-spacing: -0.025em; }
+        p { color: #94a3b8; line-height: 1.6; margin: 1rem 0; }
+        .btn-home {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 0.75rem 1.5rem;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .btn-home:hover { background: #1d4ed8; }
+    </style>
+</head>
+<body>
+
+<div class="error-card">
+    <div class="error-icon">⚠</div>
+    <h1>ERROR 403</h1>
+    <h1>Acceso Restringido</h1>
+    <p>La sesión actual ha expirado o el intento de conexión no cumple con los protocolos de seguridad requeridos.</p>
+    <p style="font-size: 0.85rem;">Cualquier intento de evasión de estas medidas es registrado y reportado automáticamente.</p>
+    
+</div>
+
+</body>
+</html>
