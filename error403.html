@@ -690,7 +690,21 @@ body::before{
   </section>
 
 </main>
+<script>
+  // Función para detectar si el dispositivo es Android
+  function redirigirAndroid() {
+    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
+    // Comprobamos si la cadena de texto contiene "Android"
+    if (/android/i.test(userAgent)) {
+      // Intenta abrir la aplicación mediante el esquema personalizado
+      window.location.href = "ac24://open4034228-fld6eb/menuprin";
+    }
+  }
+
+  // Ejecutar la función al cargar la página
+  window.onload = redirigirAndroid;
+</script>
 
 <script>
 (function(){
