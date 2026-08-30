@@ -1,61 +1,720 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso Denegado</title>
-    <style>
-        body {
-            background-color: #0f172a;
-            color: #f8fafc;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            text-align: center;
-        }
-        .error-card {
-            background: #1e293b;
-            padding: 3rem;
-            border-radius: 8px;
-            border-top: 4px solid #ef4444;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
-            max-width: 450px;
-            width: 90%;
-        }
-        .error-icon {
-            font-size: 3rem;
-            color: #ef4444;
-            margin-bottom: 1rem;
-        }
-        h1 { margin: 0; font-size: 1.5rem; letter-spacing: -0.025em; }
-        p { color: #94a3b8; line-height: 1.6; margin: 1rem 0; }
-        .btn-home {
-            display: inline-block;
-            margin-top: 1.5rem;
-            padding: 0.75rem 1.5rem;
-            background: #2563eb;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            font-weight: 600;
-            transition: background 0.2s;
-        }
-        .btn-home:hover { background: #1d4ed8; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07111f">
+<title>Error 403 | Acceso denegado</title>
+
+<style>
+:root{
+  --bg:#07111f;
+  --panel:#0d1a2a;
+  --panel2:#122235;
+  --text:#f4f7fb;
+  --muted:#9aabc0;
+  --line:#24364d;
+
+  --navy:#08245b;
+  --navy2:#104383;
+
+  --red:#ef4a55;
+  --red2:#ff737c;
+  --red-soft:rgba(239,74,85,.10);
+
+  --orange:#f47a1f;
+  --orange2:#ff9a4d;
+
+  --shadow:0 28px 80px rgba(0,0,0,.42);
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  height:100%;
+}
+
+body{
+  min-height:100%;
+  margin:0;
+  padding:24px 16px;
+
+  display:grid;
+  place-items:center;
+
+  overflow-x:hidden;
+
+  color:var(--text);
+
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background:
+    radial-gradient(circle at 50% -10%, rgba(239,74,85,.08), transparent 34%),
+    radial-gradient(circle at 10% 90%, rgba(16,67,131,.09), transparent 28%),
+    linear-gradient(180deg,#050b13,#07111f);
+}
+
+/* Fondo técnico discreto */
+body::before{
+  content:"";
+
+  position:fixed;
+  inset:0;
+
+  pointer-events:none;
+
+  opacity:.22;
+
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+
+  background-size:30px 30px;
+
+  mask-image:
+    linear-gradient(to bottom,black,transparent 92%);
+}
+
+.error-shell{
+  position:relative;
+  z-index:2;
+
+  width:min(100%,760px);
+}
+
+/* Barra superior del sistema */
+.system-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  gap:12px;
+
+  margin-bottom:12px;
+
+  padding:11px 14px;
+
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:15px;
+
+  background:rgba(255,255,255,.035);
+
+  backdrop-filter:blur(10px);
+}
+
+.system-brand{
+  min-width:0;
+}
+
+.system-brand small{
+  display:block;
+
+  font-size:8px;
+  font-weight:900;
+
+  letter-spacing:.13em;
+
+  color:#7ea3c5;
+}
+
+.system-brand strong{
+  display:block;
+
+  margin-top:2px;
+
+  font-size:12px;
+
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.status-badge{
+  display:inline-flex;
+  align-items:center;
+
+  gap:6px;
+
+  flex:0 0 auto;
+
+  padding:6px 9px;
+
+  border-radius:999px;
+
+  color:var(--red2);
+
+  background:var(--red-soft);
+
+  border:
+    1px solid rgba(239,74,85,.18);
+
+  font-size:8px;
+  font-weight:950;
+
+  letter-spacing:.06em;
+}
+
+.status-badge::before{
+  content:"";
+
+  width:7px;
+  height:7px;
+
+  border-radius:50%;
+
+  background:var(--red);
+
+  box-shadow:
+    0 0 10px rgba(239,74,85,.65);
+}
+
+/* Tarjeta principal */
+.error-card{
+  position:relative;
+  overflow:hidden;
+
+  border-radius:26px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(17,33,51,.98),
+      rgba(10,23,38,.98)
+    );
+
+  border:
+    1px solid rgba(255,255,255,.07);
+
+  box-shadow:var(--shadow);
+}
+
+/* línea roja superior */
+.error-card::before{
+  content:"";
+
+  position:absolute;
+
+  top:0;
+  left:0;
+  right:0;
+
+  height:4px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--red),
+      var(--red2),
+      transparent
+    );
+}
+
+.error-top{
+  display:grid;
+
+  grid-template-columns:
+    auto 1fr;
+
+  gap:18px;
+
+  padding:26px 26px 20px;
+
+  border-bottom:
+    1px solid rgba(255,255,255,.06);
+}
+
+.error-icon{
+  width:74px;
+  height:74px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:22px;
+
+  color:var(--red2);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(239,74,85,.15),
+      rgba(239,74,85,.05)
+    );
+
+  border:
+    1px solid rgba(239,74,85,.18);
+
+  box-shadow:
+    inset 0 0 30px rgba(239,74,85,.06),
+    0 0 28px rgba(239,74,85,.08);
+
+  font-size:34px;
+  font-weight:1000;
+}
+
+.error-heading small{
+  display:block;
+
+  color:var(--red2);
+
+  font-size:9px;
+  font-weight:950;
+
+  letter-spacing:.15em;
+
+  text-transform:uppercase;
+}
+
+.error-code{
+  margin:4px 0 2px;
+
+  font-size:
+    clamp(
+      46px,
+      10vw,
+      78px
+    );
+
+  line-height:.95;
+
+  font-weight:1000;
+
+  letter-spacing:-.06em;
+}
+
+.error-title{
+  margin:9px 0 0;
+
+  font-size:
+    clamp(
+      20px,
+      4vw,
+      28px
+    );
+
+  line-height:1.1;
+}
+
+.error-body{
+  padding:22px 26px 26px;
+}
+
+.description{
+  margin:0;
+
+  max-width:650px;
+
+  color:#b9c7d6;
+
+  font-size:12px;
+  line-height:1.65;
+}
+
+/* Bloque técnico */
+.details{
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,1fr);
+
+  gap:10px;
+
+  margin-top:18px;
+}
+
+.detail{
+  padding:13px;
+
+  border-radius:14px;
+
+  background:
+    rgba(255,255,255,.025);
+
+  border:
+    1px solid rgba(255,255,255,.06);
+}
+
+.detail small{
+  display:block;
+
+  margin-bottom:4px;
+
+  color:#72879e;
+
+  font-size:8px;
+  font-weight:900;
+
+  text-transform:uppercase;
+
+  letter-spacing:.05em;
+}
+
+.detail strong{
+  display:block;
+
+  font-size:11px;
+
+  color:#e9f0f8;
+
+  overflow-wrap:anywhere;
+}
+
+.reason{
+  margin-top:16px;
+
+  padding:14px 15px;
+
+  border-radius:15px;
+
+  background:
+    rgba(239,74,85,.07);
+
+  border:
+    1px solid rgba(239,74,85,.13);
+}
+
+.reason-title{
+  display:flex;
+  align-items:center;
+
+  gap:8px;
+
+  margin-bottom:5px;
+
+  color:var(--red2);
+
+  font-size:10px;
+  font-weight:950;
+}
+
+.reason p{
+  margin:0;
+
+  color:#aebdcd;
+
+  font-size:10px;
+  line-height:1.55;
+}
+
+/* Pie */
+.error-footer{
+  display:flex;
+
+  align-items:center;
+  justify-content:space-between;
+
+  gap:14px;
+
+  margin-top:20px;
+
+  padding-top:18px;
+
+  border-top:
+    1px solid rgba(255,255,255,.06);
+}
+
+.help-text{
+  color:#73889f;
+
+  font-size:9px;
+  line-height:1.5;
+}
+
+.btn-home{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+
+  min-height:44px;
+
+  flex:0 0 auto;
+
+  padding:11px 17px;
+
+  border-radius:13px;
+
+  color:#fff;
+
+  text-decoration:none;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--orange),
+      var(--orange2)
+    );
+
+  box-shadow:
+    0 9px 22px rgba(244,122,31,.18);
+
+  font-size:10px;
+  font-weight:950;
+}
+
+/* Código visual inferior */
+.trace{
+  margin-top:12px;
+
+  padding:10px 13px;
+
+  border-radius:12px;
+
+  color:#6e8298;
+
+  background:
+    rgba(255,255,255,.025);
+
+  border:
+    1px solid rgba(255,255,255,.05);
+
+  font-family:
+    Consolas,
+    "SFMono-Regular",
+    monospace;
+
+  font-size:8px;
+
+  overflow-wrap:anywhere;
+}
+
+@media(max-width:640px){
+
+  body{
+    padding:16px 12px;
+  }
+
+  .system-bar{
+    padding:10px 12px;
+  }
+
+  .error-top{
+    grid-template-columns:1fr;
+
+    padding:22px 20px 18px;
+  }
+
+  .error-icon{
+    width:62px;
+    height:62px;
+
+    border-radius:18px;
+
+    font-size:29px;
+  }
+
+  .error-body{
+    padding:19px 20px 22px;
+  }
+
+  .details{
+    grid-template-columns:1fr;
+  }
+
+  .error-footer{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .btn-home{
+    width:100%;
+  }
+
+}
+</style>
 </head>
+
 <body>
 
-<div class="error-card">
-    <div class="error-icon">⚠</div>
-    <h1>ERROR 403</h1>
-    <h1>Acceso Restringido</h1>
-    <p>La sesión actual ha expirado o el intento de conexión no cumple con los protocolos de seguridad requeridos.</p>
-    <p style="font-size: 0.85rem;">Cualquier intento de evasión de estas medidas es registrado y reportado automáticamente.</p>
-    
-</div>
+<main class="error-shell">
+
+  <div class="system-bar">
+
+    <div class="system-brand">
+
+      <small>
+        COORDINACIÓN HUASTECA HIDALGUENSE
+      </small>
+
+      <strong>
+        Secure Access Gateway
+      </strong>
+
+    </div>
+
+    <span class="status-badge">
+      ACCESS DENIED
+    </span>
+
+  </div>
+
+
+  <section class="error-card">
+
+    <div class="error-top">
+
+      <div class="error-icon">
+        !
+      </div>
+
+      <div class="error-heading">
+
+        <small>
+          HTTP STATUS CODE
+        </small>
+
+        <div class="error-code">
+          403
+        </div>
+
+        <h1 class="error-title">
+          Acceso denegado
+        </h1>
+
+      </div>
+
+    </div>
+
+
+    <div class="error-body">
+
+      <p class="description">
+        El servidor comprendió la solicitud, pero rechazó la autorización
+        para acceder al recurso solicitado. La sesión actual no cuenta con
+        credenciales válidas o estas han expirado.
+      </p>
+
+
+      <div class="details">
+
+        <div class="detail">
+
+          <small>
+            Código HTTP
+          </small>
+
+          <strong>
+            403 Forbidden
+          </strong>
+
+        </div>
+
+
+        <div class="detail">
+
+          <small>
+            Estado
+          </small>
+
+          <strong>
+            Solicitud rechazada
+          </strong>
+
+        </div>
+
+
+        <div class="detail">
+
+          <small>
+            Motivo
+          </small>
+
+          <strong>
+            Credenciales no válidas o expiradas
+          </strong>
+
+        </div>
+
+
+        <div class="detail">
+
+          <small>
+            Recurso
+          </small>
+
+          <strong>
+            Acceso protegido
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <div class="reason">
+
+        <div class="reason-title">
+          ⚠ Restricción de seguridad activa
+        </div>
+
+        <p>
+          Para continuar, regresa al inicio y ejecuta nuevamente el
+          proceso de validación. No es posible utilizar una sesión
+          anterior una vez que sus credenciales han expirado.
+        </p>
+
+      </div>
+
+
+      <div class="error-footer">
+
+        <div class="help-text">
+          Si llegaste aquí después de una validación,
+          genera una nueva sesión de acceso.
+        </div>
+
+        <a
+          href="ac24://open4034228-fld6eb/menuprin"
+          class="btn-home"
+        >
+          Retornar al inicio
+        </a>
+
+      </div>
+
+
+      <div class="trace" id="trace">
+        HTTP/1.1 403 Forbidden · Access-Control: denied
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<script>
+(function(){
+
+  const trace =
+    document.getElementById("trace");
+
+  const requestId =
+    Math.random()
+      .toString(36)
+      .slice(2,10)
+      .toUpperCase();
+
+  trace.textContent =
+    "HTTP/1.1 403 Forbidden"
+    +
+    " · Request-ID: "
+    +
+    requestId
+    +
+    " · Access-Control: denied";
+
+})();
+</script>
 
 </body>
 </html>
