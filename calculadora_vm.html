@@ -98,38 +98,47 @@ body{
     z-index:999;
 }
 
-.modal{
-    width:95%;
-    max-width:750px;
-
-    background:rgba(255,255,255,.97);
-
-    border-radius:24px;
-
-    padding:35px;
-
-    box-shadow:0 10px 35px rgba(0,0,0,.3);
-
-    animation:fade .3s ease;
+.modal {
+    width: 95%;
+    max-width: 750px;
+    background: #ffffff;
+    border-radius: 28px;
+    padding: 40px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+    animation: fade .4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
-@keyframes fade{
-    from{
-        opacity:0;
-        transform:translateY(20px);
-    }
+.modal::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: linear-gradient(90deg, #18458b, #3b82f6);
+}
 
-    to{
-        opacity:1;
-        transform:translateY(0);
+@keyframes fade {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
     }
 }
 
-.modal h2{
-    text-align:center;
-    color:#18458b;
-    margin-bottom:25px;
-    font-size:32px;
+.modal h2 {
+    text-align: center;
+    color: #18458b;
+    margin-bottom: 30px;
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
 }
 
 /* Contenedor */
@@ -150,116 +159,121 @@ body{
 
 
 /* Labels */
-
-label{
-    font-weight:bold;
-    display:block;
-    margin-bottom: 2px;
-    margin-left: 10px;
-    margin-top: 21px;
-    color:#18458b;
-    font-size: 14pt;
-    text-align: center;
-    font-weight:bold;
+label {
+    display: block;
+    margin-bottom: 8px;
+    margin-top: 20px;
+    color: #334155;
+    font-size: 14px;
+    text-align: left;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 /* Inputs */
-
-input,
-select{
-    width:100%;
-    padding:8px;
-    border-radius:12px;
-    border:1px solid #ccc;
+input, select {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
     text-align: center;
+    font-size: 16px;
+    color: #1e293b;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
 }
 
-input:focus,
-select:focus{
-    outline:none;
-    border-color:#18458b;
-    box-shadow:0 0 0 4px rgba(24,69,139,.15);
+input:focus, select:focus {
+    outline: none;
+    border-color: #f58220;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(245, 130, 32, 0.15);
+}
+
+/* Badge dinamico para SA (Suma Asegurada preview) */
+#saEsencial, #saIntegral {
+    margin-top: 10px;
+    color: #18458b;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    font-weight: 700;
+    text-align: center;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 14px;
 }
 
 /* Botones */
-
-.custom-button{
-
-    background:#18458b;
-
-    color:white;
-
-    padding:14px 24px;
-
-    border:none;
-
-    border-radius:14px;
-
-    cursor:pointer;
-
-    font-size:16px;
-
-    font-weight:600;
-
-    transition:.25s;
+.custom-button {
+    background: linear-gradient(135deg, #18458b 0%, #123568 100%);
+    color: white;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: 0.3s;
     margin-top: 35px;
+    box-shadow: 0 4px 15px rgba(24, 69, 139, 0.3);
 }
 
-.custom-button:hover{
-
-    background:#123568;
-
-    transform:translateY(-2px);
+.custom-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(24, 69, 139, 0.4);
 }
 
-/* Resultado */
-
-.result{
-
-    margin-top:25px;
-
-    background:#f7f9fc;
-
-    padding:25px;
-
-    border-radius:18px;
-
-    border:2px solid #f58220;
+/* Resultado Panel */
+.result {
+    margin-top: 25px;
+    background: #ffffff;
+    padding: 35px;
+    border-radius: 24px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
 }
 
-.value{
-
-    font-size: 46pt;
-
-    font-weight:bold;
-
-    color:#18458b;
+.result::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(90deg, #18458b, #3b82f6);
 }
 
-.total-sa{
-
-    margin-top:12px;
-
-    font-size:20pt;
-
-    font-weight:600;
+.value {
+    font-size: 42pt;
+    font-weight: 800;
+    color: #f58220; /* Corporate Orange for main result */
+    letter-spacing: -1px;
 }
 
-/* PDF */
+.total-sa {
+    margin-top: 12px;
+    font-size: 18pt;
+    color: #475569;
+    font-weight: 600;
+}
+
+/* PDF - PREMIUM DESIGN */
 
 .hoja{
-
     width:100%;
-    max-width:900px;
-
-    margin:40px auto;
-
-    background:white;
-
-    padding:25px;
-
-    border-radius:20px;
+    margin: 0;
+    background:#ffffff;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    border: none;
 }
+
 #pdf{
     overflow:hidden;
 }
@@ -276,77 +290,89 @@ table{
 tr, td, th{
     page-break-inside:avoid;
 }
+
 .logo{
     text-align:center;
-    margin-bottom:25px;
+    margin-bottom:30px;
 }
 
 .logo h1{
-    color:#f58220;
-    font-size: 62px;
+    color: #18458b; /* Solid corporate color for html2canvas compatibility */
+    font-size: 58px;
+    font-weight: 800;
+    letter-spacing: -1px;
 }
 
 .logo p{
-    color:#666;
-    font-size: 20px;
+    color:#737f8d;
+    font-size: 19px;
+    font-weight: 500;
+    margin-top: 5px;
 }
 
 .box{
-
-    border:3px solid #f58220;
-
-    border-radius:20px;
-
-    padding:20px;
+    border: none;
+    background: #f8fafc;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: none;
 }
 
 .fila{
-
     display:flex;
-
     justify-content:space-between;
-
-    border-top:1px solid #f58220;
-
-    padding:12px 15px 12px 15px;
+    border-bottom: none;
+    padding: 15px 10px;
+    transition: background 0.3s;
 }
+
 .fila:last-child{
-    border-bottom:1px solid #f58220;
+    border-bottom: none;
 }
 
+.fila:hover{
+    background: #f1f5f9;
+    border-radius: 8px;
+}
 
+.label{
+    color: #475569;
+    font-weight: 600;
+}
 
 .texto{
     margin-top:30px;
-    line-height:1.6;
+    line-height:1.7;
+    color: #334155;
 }
 
 table{
-    border-color:#f58220;;
+    border: none;
     width:100%;
     border-collapse:collapse;
     margin-top:30px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: none;
 }
 
-th,
-td{
-    border-bottom:1px solid #f58220;
-    padding:12px;
-    text-align:left;
+th, td{
+    border-bottom: none;
+    padding: 16px;
+    text-align: left;
+    color: #334155;
 }
 
 thead{
+    background: #f1f5f9;
     color:#18458b;
+    font-weight: bold;
 }
 
 .nota{
-
     margin-top:30px;
-
     text-align:center;
-
     color:#18458b;
-
     font-weight:bold;
 }
 
@@ -365,12 +391,12 @@ thead{
 
 
 #zonaPDF{
-
     background:white;
-
+    width: 900px;
+    margin: 0 auto;
+    padding: 30px; /* Small 30px borders around the content */
+    box-sizing: border-box;
     overflow:hidden;
-    margin-top: 25px;
-    border-radius: 28px;
 }
 
 #zonaPDF *{
@@ -579,6 +605,10 @@ th{
 
 <body>
 
+<div id="tooltipCarga" style="display:none; text-align: center; align-items: center; width: 100%; height: 100%; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:rgb(182, 233, 236); color:#fff; padding:20px 40px; border-radius:12px; z-index:9999; font-weight:bold; font-size:18px; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
+    Generando cotización...
+</div>
+
 <div class="fondo-blur"></div>
 
 <!-- MODAL -->
@@ -710,6 +740,13 @@ Cargando archivo VM...
     </div>
 
 </div>
+<div style="grid-column: 1 / -1;">
+    <label>Frecuencia de Pago</label>
+    <select id="frecuenciaPago">
+        <option value="quincenal" selected>Quincenal</option>
+        <option value="mensual">Mensual</option>
+    </select>
+</div>
         </div>
 
         <br><br>
@@ -774,7 +811,7 @@ Descargar Imagen
         <p>Protección y ahorro a tu medida</p>
 
     </div>
-<p style="text-align: right; padding-right: 5%;">Fecha de emisión: <span id="miFecha">Cargando fecha...</span></p><br>
+<p style="text-align: right; padding-right: 5%;">Fecha de cotización: <span id="miFecha">Cargando fecha...</span></p><br>
     <div class="box">
 <strong>Cotización de Seguro de Vida:</strong><br><br><br>
         <div class="fila">
@@ -788,7 +825,7 @@ Descargar Imagen
         </div>
 
         <div class="fila">
-            <span class="label">Pago Quincenal</span>
+            <span class="label" id="labelPdfPQ">Pago Quincenal</span>
             <span id="pdfPQ"></span>
         </div>
 
@@ -813,8 +850,8 @@ Descargar Imagen
 
 
 
-  <table border="1">
-<p>Contratando <strong style="color: #f58220;">Vida Más Constante</strong> y con una aportación de <strong style="color: #f58220;"><span id="montoQuincenal"></span></strong> quincenales, contará con las siguientes coberturas:</p>
+  <table border="0">
+<p>Contratando <strong style="color: #f58220;">Vida Más Constante</strong> y con una aportación de <strong style="color: #f58220;"><span id="montoQuincenal"></span></strong> <span id="textoFrecuencia">quincenales</span>, contará con las siguientes coberturas:</p>
   <thead>
     <tr>
       <th class="col-ancha">Coberturas</th>
@@ -1183,28 +1220,63 @@ function actualizarPlanesTiempoReal(){
     return Number(fila[columna]) || 0;
 }
 
+document.getElementById('frecuenciaPago').addEventListener('change', function() {
+    const isMensual = this.value === 'mensual';
+    const esencialSelect = document.getElementById('coberturaEsencial');
+    const integralSelect = document.getElementById('coberturaIntegral');
+    
+    const esencialDisabled = ['100', '150', '200', '250'];
+    Array.from(esencialSelect.options).forEach(opt => {
+        if (esencialDisabled.includes(opt.value)) {
+            opt.disabled = isMensual;
+            if (isMensual && opt.selected) {
+                esencialSelect.value = '300';
+            }
+        }
+    });
+
+    const integralDisabled = ['150', '200', '250'];
+    Array.from(integralSelect.options).forEach(opt => {
+        if (integralDisabled.includes(opt.value)) {
+            opt.disabled = isMensual;
+            if (isMensual && opt.selected) {
+                integralSelect.value = '300';
+            }
+        }
+    });
+});
+
 function calcular(){
 
     const edad = parseInt(document.getElementById('edad').value);
 
     const sexo = document.getElementById('sexo').value;
 
-    const coberturaEsencial =
-    parseInt(document.getElementById('coberturaEsencial').value);
+    let coberturaEsencial = parseInt(document.getElementById('coberturaEsencial').value);
 
-    const coberturaIntegral =
-    parseInt(document.getElementById('coberturaIntegral').value);
+    let coberturaIntegral = parseInt(document.getElementById('coberturaIntegral').value);
+    
+    const frecuenciaElement = document.getElementById('frecuenciaPago');
+    const frecuenciaPago = frecuenciaElement ? frecuenciaElement.value : 'quincenal';
+
+    let cantidadEsencialCotizar = coberturaEsencial;
+    let cantidadIntegralCotizar = coberturaIntegral;
+
+    if (frecuenciaPago === 'mensual') {
+        cantidadEsencialCotizar = coberturaEsencial / 2;
+        cantidadIntegralCotizar = coberturaIntegral / 2;
+    }
 
     const primaEsencial =
-    obtenerValor(edad,coberturaEsencial,'esencial',sexo);
+    obtenerValor(edad,cantidadEsencialCotizar,'esencial',sexo);
 
     const primaIntegral =
-    obtenerValor(edad,coberturaIntegral,'integral',sexo);
+    obtenerValor(edad,cantidadIntegralCotizar,'integral',sexo);
 
     
     const primaTotal = primaEsencial + primaIntegral;
 
-    const pq = coberturaEsencial + coberturaIntegral;
+    const pq = cantidadEsencialCotizar + cantidadIntegralCotizar;
     
     const div = ((pq * 24)*(.10))*3;
 
@@ -1233,6 +1305,9 @@ primaTotal
     const saTexto =
     '$' + primaTotal.toLocaleString('es-MX');
 
+    const pqOriginalTotal = coberturaEsencial + coberturaIntegral;
+    const pqOriginalTexto = '$' + pqOriginalTotal.toLocaleString('es-MX');
+
     const pqTexto =
     '$' + pq.toLocaleString('es-MX');
 
@@ -1247,10 +1322,19 @@ primaTotal
     document.getElementById('resultado').innerText =
     'S.A: ' + saTexto;
 
-    document.getElementById('sumapq').innerText =
-    'Pago Quincenal: ' + pqTexto;
+    const labelPago = frecuenciaPago === 'mensual' ? 'Pago Mensual: ' : 'Pago Quincenal: ';
+    const labelMensaje = frecuenciaPago === 'mensual' ? 'mensuales' : 'quincenales';
 
-    document.getElementById('montoQuincenal').innerText = pqTexto;
+    document.getElementById('sumapq').innerText =
+    labelPago + pqOriginalTexto;
+
+    document.getElementById('montoQuincenal').innerText = pqOriginalTexto;
+    
+    let textoFrecuenciaEl = document.getElementById('textoFrecuencia');
+    if(textoFrecuenciaEl) textoFrecuenciaEl.innerText = labelMensaje;
+    
+    let labelPdfPQEl = document.getElementById('labelPdfPQ');
+    if(labelPdfPQEl) labelPdfPQEl.innerText = frecuenciaPago === 'mensual' ? 'Pago Mensual' : 'Pago Quincenal';
 
 
 
@@ -1262,7 +1346,7 @@ primaTotal
     ? 'Femenino'
     : 'Masculino';
 
-    document.getElementById('pdfPQ').innerText = pqTexto;
+    document.getElementById('pdfPQ').innerText = pqOriginalTexto;
 
     document.getElementById('pdfSA').innerText = saTexto;
 
@@ -1355,8 +1439,20 @@ function verCotizacion(){
 
     document.getElementById('modalOverlay').style.display = 'none';
 
-    document.getElementById('contenidoCotizacion').style.display = 'block';
+    // Disable displaying result panel directly, go straight to download
+    // document.getElementById('contenidoCotizacion').style.display = 'block';
     modoEscritorio();
+
+    const tooltip = document.getElementById('tooltipCarga');
+    if(tooltip) {
+        tooltip.style.display = 'block';
+        tooltip.innerText = 'Generando cotización...';
+    }
+
+    setTimeout(() => {
+        if(tooltip) tooltip.innerText = 'Descargando imagen...';
+        descargarImagen();
+    }, 500);
 }
 
 /* Triple click */
@@ -1648,19 +1744,27 @@ window.addEventListener(
         'sexo'
     ).value;
 
-    const coberturaEsencial =
+    let coberturaEsencial =
     parseInt(
         document.getElementById(
             'coberturaEsencial'
         ).value
     );
 
-    const coberturaIntegral =
+    let coberturaIntegral =
     parseInt(
         document.getElementById(
             'coberturaIntegral'
         ).value
     );
+
+    const frecuenciaElement = document.getElementById('frecuenciaPago');
+    const frecuenciaPago = frecuenciaElement ? frecuenciaElement.value : 'quincenal';
+
+    if (frecuenciaPago === 'mensual') {
+        coberturaEsencial = coberturaEsencial / 2;
+        coberturaIntegral = coberturaIntegral / 2;
+    }
 
     /* SA ESENCIAL */
 
@@ -2092,54 +2196,46 @@ window.addEventListener(
 
 async function descargarImagen(){
 
-    const elemento =
-    document.getElementById(
-        'zonaPDF'
-    );
-
-    const boton =
-    document.getElementById(
-        'btnDescargar'
-    );
-
+    const elemento = document.getElementById('zonaPDF');
+    const boton = document.getElementById('btnDescargar');
+    
     /* OCULTAR BOTON */
-
     boton.style.display = 'none';
 
-    await new Promise(resolve =>
-        setTimeout(resolve,300)
-    );
+    await new Promise(resolve => setTimeout(resolve,300));
 
     html2canvas(elemento,{
-
         scale:3,
-
         useCORS:true,
-
         backgroundColor:'#ffffff',
-
         scrollY:-window.scrollY
-
     }).then(canvas => {
 
-        const link =
-        document.createElement('a');
+        const link = document.createElement('a');
 
-        link.download =
-        'Cotizacion_VM.png';
-
-        link.href =
-        canvas.toDataURL(
-            'image/png',
-            1.0
-        );
-
+        const now = new Date();
+        const d = String(now.getDate()).padStart(2, '0');
+        const m = String(now.getMonth() + 1).padStart(2, '0');
+        const y = now.getFullYear();
+        const h = String(now.getHours()).padStart(2, '0');
+        const min = String(now.getMinutes()).padStart(2, '0');
+        const sec = String(now.getSeconds()).padStart(2, '0');
+        
+        link.download = `Cotizacion_Vida_Mas_GNP_${d}_${m}_${y}_${h}_${min}_${sec}.png`;
+        link.href = canvas.toDataURL('image/png', 1.0);
         link.click();
 
-        /* MOSTRAR BOTON */
-
+        /* Restablecer UI */
         boton.style.display = 'inline';
-        boton.style.margin = '31px 0px 0px 0p';
+        boton.style.margin = '31px 0px 0px 0px';
+        
+        const tooltip = document.getElementById('tooltipCarga');
+        if(tooltip) tooltip.style.display = 'none';
+        
+        document.getElementById('modalOverlay').style.display = 'flex';
+        
+        // Disable viewport scale trick
+        document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.0');
     });
 
 }
