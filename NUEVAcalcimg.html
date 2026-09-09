@@ -33,6 +33,14 @@
 <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
+
+    input:disabled,
+select:disabled {
+    background: #e9ecef !important;
+    color: #555 !important;
+    cursor: not-allowed;
+    opacity: 1;
+}
 /* Pinta de rojo únicamente las opciones que estén deshabilitadas */
 #pagoEsencial option:disabled {
     color: #dc3545 !important;
@@ -318291,100 +318299,55 @@ document.getElementById('pagoIntegral').addEventListener('change', calcularSARea
 setTimeout(calcularSARealTime, 500);
 
 
-
-
-
 function cargarCotizacionRecibida() {
 
-    const params =
-        new URLSearchParams(
-            window.location.search
-        );
+    const params = new URLSearchParams(window.location.search);
 
+    const edad = params.get("edad");
+    const sexo = params.get("sexo");
+    const fumador = params.get("fumador");
+    const pagoE = params.get("pagoE");
+    const pagoI = params.get("pagoI");
+    const ahorro = params.get("ahorro");
+    const frecuencia = params.get("frecuencia");
 
-    // =========================================
-    // LEER DATOS
-    // =========================================
-
-    const edad =
-        params.get("edad");
-
-    const sexo =
-        params.get("sexo");
-
-    const fumador =
-        params.get("fumador");
-
-    const pagoE =
-        params.get("pagoE");
-
-    const pagoI =
-        params.get("pagoI");
-
-    const ahorro =
-        params.get("ahorro");
-
-    const frecuencia =
-        params.get("frecuencia");
-
-
-    // Si no recibió cotización,
-    // funciona normalmente
+    // Si no vienen datos desde la calculadora local,
+    // la calculadora funciona normalmente
     if (!edad) {
         return;
     }
 
-
-    // =========================================
     // EDAD
-    // =========================================
-
-    const campoEdad =
-        document.getElementById("edad");
+    const campoEdad = document.getElementById("edad");
 
     if (campoEdad) {
-
         campoEdad.value = edad;
+        campoEdad.disabled = true;
 
         campoEdad.dispatchEvent(
-            new Event(
-                "input",
-                { bubbles: true }
-            )
+            new Event("input", { bubbles: true })
         );
     }
 
 
-    // =========================================
     // SEXO
-    // =========================================
-
-    const campoSexo =
-        document.getElementById("sexo");
+    const campoSexo = document.getElementById("sexo");
 
     if (
         campoSexo &&
-        (sexo === "Masculino" ||
-         sexo === "Femenino")
+        (sexo === "Masculino" || sexo === "Femenino")
     ) {
-
         campoSexo.value = sexo;
+        campoSexo.disabled = true;
 
         campoSexo.dispatchEvent(
-            new Event(
-                "change",
-                { bubbles: true }
-            )
+            new Event("change", { bubbles: true })
         );
     }
 
 
-    // =========================================
     // FUMADOR
-    // =========================================
-
-    const campoFumador =
-        document.getElementById("fumador");
+    const campoFumador = document.getElementById("fumador");
 
     if (campoFumador) {
 
@@ -318393,24 +318356,17 @@ function cargarCotizacionRecibida() {
                 ? "NO"
                 : fumador;
 
+        campoFumador.disabled = true;
+
         campoFumador.dispatchEvent(
-            new Event(
-                "change",
-                { bubbles: true }
-            )
+            new Event("change", { bubbles: true })
         );
     }
 
 
-    // =========================================
     // FRECUENCIA
-    // IMPORTANTE: primero frecuencia
-    // =========================================
-
     const campoFrecuencia =
-        document.getElementById(
-            "frecuenciaPago"
-        );
+        document.getElementById("frecuenciaPago");
 
     if (
         campoFrecuencia &&
@@ -318418,154 +318374,107 @@ function cargarCotizacionRecibida() {
          frecuencia === "mensual")
     ) {
 
-        campoFrecuencia.value =
-            frecuencia;
+        campoFrecuencia.value = frecuencia;
 
         campoFrecuencia.dispatchEvent(
-            new Event(
-                "change",
-                { bubbles: true }
-            )
+            new Event("change", { bubbles: true })
         );
+
+        campoFrecuencia.disabled = true;
     }
 
 
-    // =========================================
     // PAGO ESENCIAL
-    // =========================================
-
     const campoEsencial =
-        document.getElementById(
-            "pagoEsencial"
-        );
+        document.getElementById("pagoEsencial");
 
     if (campoEsencial && pagoE !== null) {
 
-        const existe =
-            Array.from(
-                campoEsencial.options
-            ).some(
-                opcion =>
-                    opcion.value === pagoE
-            );
+        const existe = Array.from(
+            campoEsencial.options
+        ).some(
+            opcion => opcion.value === pagoE
+        );
 
         if (existe) {
 
-            campoEsencial.value =
-                pagoE;
+            campoEsencial.value = pagoE;
 
             campoEsencial.dispatchEvent(
-                new Event(
-                    "change",
-                    { bubbles: true }
-                )
+                new Event("change", { bubbles: true })
             );
+
+            campoEsencial.disabled = true;
         }
     }
 
 
-    // =========================================
     // PAGO INTEGRAL
-    // =========================================
-
     const campoIntegral =
-        document.getElementById(
-            "pagoIntegral"
-        );
+        document.getElementById("pagoIntegral");
 
     if (campoIntegral && pagoI !== null) {
 
-        const existe =
-            Array.from(
-                campoIntegral.options
-            ).some(
-                opcion =>
-                    opcion.value === pagoI
-            );
+        const existe = Array.from(
+            campoIntegral.options
+        ).some(
+            opcion => opcion.value === pagoI
+        );
 
         if (existe) {
 
-            campoIntegral.value =
-                pagoI;
+            campoIntegral.value = pagoI;
 
             campoIntegral.dispatchEvent(
-                new Event(
-                    "change",
-                    { bubbles: true }
-                )
+                new Event("change", { bubbles: true })
             );
+
+            campoIntegral.disabled = true;
         }
     }
 
 
-    // =========================================
     // AHORRO
-    // =========================================
-
     const campoAhorro =
-        document.getElementById(
-            "ahorro"
-        );
+        document.getElementById("ahorro");
 
     if (campoAhorro && ahorro !== null) {
 
-        campoAhorro.value =
-            ahorro;
+        campoAhorro.value = ahorro;
 
         campoAhorro.dispatchEvent(
-            new Event(
-                "input",
-                { bubbles: true }
-            )
+            new Event("input", { bubbles: true })
         );
 
         campoAhorro.dispatchEvent(
-            new Event(
-                "change",
-                { bubbles: true }
-            )
+            new Event("change", { bubbles: true })
         );
+
+        campoAhorro.disabled = true;
     }
 
 
-    // =========================================
-    // DEJAR DATOS FALTANTES VACÍOS
-    // =========================================
+    // =====================================
+    // DATOS QUE SÍ PUEDE CAPTURAR
+    // =====================================
 
     const nombre =
-        document.getElementById(
-            "nombre"
-        );
+        document.getElementById("nombre");
 
     if (nombre) {
         nombre.value = "";
+        nombre.disabled = false;
     }
 
 
     const ocupacion =
-        document.getElementById(
-            "ocupacion"
-        );
+        document.getElementById("ocupacion");
 
     if (ocupacion) {
         ocupacion.value = "";
+        ocupacion.disabled = false;
     }
-
-
-    console.log(
-        "Cotización recibida correctamente",
-        {
-            edad,
-            sexo,
-            fumador,
-            pagoE,
-            pagoI,
-            ahorro,
-            frecuencia
-        }
-    );
 }
-
 document.addEventListener(
     "DOMContentLoaded",
     function () {
