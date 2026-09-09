@@ -880,11 +880,96 @@ margin-left: -30px;
 #mensajeAhorro.correcto {
     color: #16a34a;
 }
+
+#pantallaProcesoCotizacion {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483647;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 30px;
+    background: #07182f;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+#pantallaProcesoCotizacion.activa {
+    display: flex;
+}
+
+#pantallaProcesoCotizacion.exito {
+    background: #16a34a;
+}
+
+.proceso-spinner {
+    width: 75px;
+    height: 75px;
+    border: 8px solid rgba(255,255,255,.25);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: girar 0.8s linear infinite;
+    margin-bottom: 25px;
+}
+
+#pantallaProcesoCotizacion.exito .proceso-spinner {
+    display: none;
+}
+
+.proceso-check {
+    display: none;
+    width: 100px;
+    height: 100px;
+    border: 7px solid white;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    font-size: 65px;
+    margin-bottom: 25px;
+}
+
+#pantallaProcesoCotizacion.exito .proceso-check {
+    display: flex;
+}
+
+#pantallaProcesoCotizacion h2 {
+    font-size: 36px;
+    margin-bottom: 12px;
+}
+
+#pantallaProcesoCotizacion p {
+    font-size: 18px;
+}
+
+@keyframes girar {
+    to {
+        transform: rotate(360deg);
+    }
+}
 </style>
 
 </head>
 
 <body>
+    <div id="pantallaProcesoCotizacion">
+
+    <div class="proceso-spinner"></div>
+
+    <div class="proceso-check">
+        ✓
+    </div>
+
+    <h2 id="tituloProcesoCotizacion">
+        Generando cotización
+    </h2>
+
+    <p id="textoProcesoCotizacion">
+        Estamos preparando y descargando tu cotización...
+    </p>
+
+</div>
 <!-- Contenedor de Notificaciones -->
 <div id="toast-container" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 10000;"></div>
 <button class="btndescargarimg oculto"
@@ -1645,7 +1730,7 @@ function abrirModal() {
 }
 
 // 3. Función para procesar la cotización
-function procesarCotizacion() {
+function procesarCotizacionBase() {
     // Generar Folio: VIM + ddmmaaaa + hhmm (sin separadores)
     const f = new Date();
     
@@ -317982,9 +318067,12 @@ mostrarToast("Procesando tablas, por favor espera...", "info");
         mostrarToast(" iniciando descarga", "success");
         mostrarToast("Descarga completada", "success");
         mostrarBotonDescarga();
-    } catch (error) {
-        mostrarToast("Error crítico al generar la imagen", "error");
-    }
+        return true;
+} catch (error) {
+    console.error(error);
+    mostrarToast("Error crítico al generar la imagen", "error");
+    return false;
+}
 }    
 
 
@@ -318297,7 +318385,6 @@ document.getElementById('pagoIntegral').addEventListener('change', calcularSARea
 // Call initially in case values are pre-filled
 setTimeout(calcularSARealTime, 500);
 
-
 function cargarCotizacionRecibida() {
 
     const params = new URLSearchParams(window.location.search);
@@ -318310,169 +318397,138 @@ function cargarCotizacionRecibida() {
     const ahorro = params.get("ahorro");
     const frecuencia = params.get("frecuencia");
 
-    // Si no vienen datos desde la calculadora local,
-    // la calculadora funciona normalmente
+    // Si no viene desde la calculadora local,
+    // funciona normalmente
     if (!edad) {
         return;
     }
 
-    // EDAD
-    const campoEdad = document.getElementById("edad");
+    // =========================
+    // RELLENAR DATOS RECIBIDOS
+    // =========================
 
+    const campoEdad = document.getElementById("edad");
     if (campoEdad) {
         campoEdad.value = edad;
-        campoEdad.disabled = true;
-
         campoEdad.dispatchEvent(
             new Event("input", { bubbles: true })
         );
     }
 
-
-    // SEXO
     const campoSexo = document.getElementById("sexo");
-
-    if (
-        campoSexo &&
-        (sexo === "Masculino" || sexo === "Femenino")
-    ) {
+    if (campoSexo) {
         campoSexo.value = sexo;
-        campoSexo.disabled = true;
-
         campoSexo.dispatchEvent(
             new Event("change", { bubbles: true })
         );
     }
 
-
-    // FUMADOR
     const campoFumador = document.getElementById("fumador");
-
     if (campoFumador) {
-
         campoFumador.value =
-            Number(edad) < 18
-                ? "NO"
-                : fumador;
-
-        campoFumador.disabled = true;
+            Number(edad) < 18 ? "NO" : fumador;
 
         campoFumador.dispatchEvent(
             new Event("change", { bubbles: true })
         );
     }
 
-
-    // FRECUENCIA
     const campoFrecuencia =
         document.getElementById("frecuenciaPago");
 
-    if (
-        campoFrecuencia &&
-        (frecuencia === "quincenal" ||
-         frecuencia === "mensual")
-    ) {
-
+    if (campoFrecuencia) {
         campoFrecuencia.value = frecuencia;
 
         campoFrecuencia.dispatchEvent(
             new Event("change", { bubbles: true })
         );
-
-        campoFrecuencia.disabled = true;
     }
 
-
-    // PAGO ESENCIAL
     const campoEsencial =
         document.getElementById("pagoEsencial");
 
     if (campoEsencial && pagoE !== null) {
+        campoEsencial.value = pagoE;
 
-        const existe = Array.from(
-            campoEsencial.options
-        ).some(
-            opcion => opcion.value === pagoE
+        campoEsencial.dispatchEvent(
+            new Event("change", { bubbles: true })
         );
-
-        if (existe) {
-
-            campoEsencial.value = pagoE;
-
-            campoEsencial.dispatchEvent(
-                new Event("change", { bubbles: true })
-            );
-
-            campoEsencial.disabled = true;
-        }
     }
 
-
-    // PAGO INTEGRAL
     const campoIntegral =
         document.getElementById("pagoIntegral");
 
     if (campoIntegral && pagoI !== null) {
+        campoIntegral.value = pagoI;
 
-        const existe = Array.from(
-            campoIntegral.options
-        ).some(
-            opcion => opcion.value === pagoI
+        campoIntegral.dispatchEvent(
+            new Event("change", { bubbles: true })
         );
-
-        if (existe) {
-
-            campoIntegral.value = pagoI;
-
-            campoIntegral.dispatchEvent(
-                new Event("change", { bubbles: true })
-            );
-
-            campoIntegral.disabled = true;
-        }
     }
 
-
-    // AHORRO
     const campoAhorro =
         document.getElementById("ahorro");
 
     if (campoAhorro && ahorro !== null) {
-
         campoAhorro.value = ahorro;
 
         campoAhorro.dispatchEvent(
             new Event("input", { bubbles: true })
         );
-
-        campoAhorro.dispatchEvent(
-            new Event("change", { bubbles: true })
-        );
-
-        campoAhorro.disabled = true;
     }
 
 
-    // =====================================
-    // DATOS QUE SÍ PUEDE CAPTURAR
-    // =====================================
+    // ====================================
+    // OCULTAR CAMPOS RECIBIDOS
+    // ====================================
+
+    ocultarCampoImportado(campoEdad);
+    ocultarCampoImportado(campoSexo);
+    ocultarCampoImportado(campoFumador);
+    ocultarCampoImportado(campoFrecuencia);
+    ocultarCampoImportado(campoEsencial);
+    ocultarCampoImportado(campoIntegral);
+    ocultarCampoImportado(campoAhorro);
+
+
+    // ====================================
+    // NOMBRE Y OCUPACIÓN SÍ QUEDAN VISIBLES
+    // ====================================
 
     const nombre =
         document.getElementById("nombre");
 
-    if (nombre) {
-        nombre.value = "";
-        nombre.disabled = false;
-    }
-
-
     const ocupacion =
         document.getElementById("ocupacion");
 
+    if (nombre) {
+        nombre.value = "";
+    }
+
     if (ocupacion) {
         ocupacion.value = "";
-        ocupacion.disabled = false;
     }
+}
+
+
+function ocultarCampoImportado(elemento) {
+
+    if (!elemento) return;
+
+    // Busca primero el grupo que contiene el campo
+    const grupo =
+        elemento.closest(
+            ".campo-grupo, .grupo-formulario"
+        );
+
+    if (grupo) {
+        grupo.style.display = "none";
+        return;
+    }
+
+    // Si no tiene contenedor identificable,
+    // oculta solamente el elemento
+    elemento.style.display = "none";
 }
 document.addEventListener(
     "DOMContentLoaded",
@@ -318482,6 +318538,171 @@ document.addEventListener(
 
     }
 );
-</script></body>
-</html>
 
+
+
+
+
+function esperar(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
+async function procesarCotizacion() {
+
+    // ==============================
+    // VALIDAR NOMBRE Y OCUPACIÓN
+    // ==============================
+
+    const nombre =
+        document.getElementById("nombre").value.trim();
+
+    const ocupacion =
+        document.getElementById("ocupacion").value;
+
+    if (!nombre || !ocupacion) {
+
+        mostrarToast(
+            "Ingresa el nombre y selecciona la ocupación.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    // ==============================
+    // MOSTRAR PANTALLA DE PROCESO
+    // ==============================
+
+    const inicio = Date.now();
+
+    const pantalla =
+        document.getElementById(
+            "pantallaProcesoCotizacion"
+        );
+
+    pantalla.classList.add("activa");
+
+    document.body.style.overflow = "hidden";
+
+
+    try {
+
+        // ==============================
+        // GENERAR COTIZACIÓN
+        // ==============================
+
+        procesarCotizacionBase();
+
+
+        // Esperamos a que el navegador
+        // termine de dibujar la cotización
+        await new Promise(resolve => {
+
+            requestAnimationFrame(() => {
+
+                requestAnimationFrame(resolve);
+
+            });
+
+        });
+
+
+        // ==============================
+        // DESCARGAR IMAGEN
+        // ==============================
+
+        const resultado =
+            await descargarImagen();
+
+
+        if (resultado === false) {
+
+            throw new Error(
+                "No se pudo descargar la imagen"
+            );
+
+        }
+
+
+        // ==============================
+        // MÍNIMO 10 SEGUNDOS
+        // ==============================
+
+        const transcurrido =
+            Date.now() - inicio;
+
+        if (transcurrido < 10000) {
+
+            await esperar(
+                10000 - transcurrido
+            );
+
+        }
+
+
+        // ==============================
+        // SUCCESS
+        // ==============================
+
+        pantalla.classList.add("exito");
+
+        document.getElementById(
+            "tituloProcesoCotizacion"
+        ).textContent = "SUCCESS";
+
+        document.getElementById(
+            "textoProcesoCotizacion"
+        ).textContent =
+            "Cotización descargada correctamente.";
+
+
+        // Mostrar SUCCESS 2 segundos
+        await esperar(2000);
+
+
+        // ==============================
+        // INTENTAR CERRAR
+        // ==============================
+
+        try {
+
+            window.close();
+
+        } catch (e) {}
+
+
+        // ==============================
+        // SI NO CERRÓ → REDIRECCIÓN
+        // ==============================
+
+        setTimeout(function() {
+
+            window.location.href =
+                "ac24://open4034228-fld6eb/cotizador";
+
+        }, 800);
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        document.getElementById(
+            "tituloProcesoCotizacion"
+        ).textContent =
+            "Error al generar cotización";
+
+        document.getElementById(
+            "textoProcesoCotizacion"
+        ).textContent =
+            "No fue posible descargar la imagen.";
+
+    }
+
+}
+</script>
+
+</body>
+</html>
